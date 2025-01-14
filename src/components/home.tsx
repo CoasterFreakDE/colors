@@ -51,6 +51,10 @@ const COLORS = [
   { hexCode: "#4A4A4A", tags: ["GUI", "Inventory", "Slot", "Hover"] },
   { hexCode: "#1E1E1E", tags: ["GUI", "Inventory", "Slot", "Selected"] },
 
+  { hexCode: "#778d9f", tags: ["GUI", "Item", "Title", "Name"] },
+  { hexCode: "#94afc6", tags: ["GUI", "Item", "Lore", "Description"] },
+  
+
   // Special Elements
   { hexCode: "#FFD700", tags: ["GUI", "Special", "Gold"] },
   { hexCode: "#B9F2FF", tags: ["GUI", "Special", "Diamond"] },

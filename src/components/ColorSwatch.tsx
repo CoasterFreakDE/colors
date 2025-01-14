@@ -9,16 +9,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { PocketBaseTag } from "@/types/packetbase";
 
 interface ColorSwatchProps {
   hexCode?: string;
-  tags?: string[];
+  tags?: PocketBaseTag[];
   onCopy?: (hexCode: string) => void;
 }
 
 const ColorSwatch = ({
   hexCode = "#6366F1",
-  tags = ["Primary"],
+  tags = [],
   onCopy = () => {},
 }: ColorSwatchProps) => {
   const [copied, setCopied] = React.useState(false);
@@ -38,6 +39,8 @@ const ColorSwatch = ({
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
     return brightness > 128 ? "#000000" : "#FFFFFF";
   };
+
+  let distinctTags = [... new Set(tags)];
 
   const textColor = getContrastColor(hexCode);
 
@@ -68,9 +71,9 @@ const ColorSwatch = ({
                     {hexCode}
                   </span>
                   <div className="flex flex-wrap gap-1 justify-center px-4 max-w-[200px]">
-                    {tags.map((tag) => (
+                    {distinctTags.map((tag) => (
                       <Badge
-                        key={tag}
+                        key={`${hexCode}-${tag.id}`}
                         variant="secondary"
                         className={cn(
                           "text-xs transition-opacity",
@@ -83,7 +86,7 @@ const ColorSwatch = ({
                           color: textColor,
                         }}
                       >
-                        {tag}
+                        {tag.tag}
                       </Badge>
                     ))}
                   </div>

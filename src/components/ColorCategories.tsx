@@ -1,71 +1,76 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import ColorData from "@/types/packetbase";
 
 interface ColorCategory {
   id: string;
   name: string;
+  count?: number;
 }
 
 interface ColorCategoriesProps {
-  categories?: ColorCategory[];
   selectedCategory?: string;
   onCategorySelect?: (categoryId: string) => void;
-  colors?: Array<{ hexCode: string; tags: string[] }>;
+  colors?: ColorData[];
 }
 
-const DEFAULT_CATEGORIES = [
-  { id: "all", name: "All Colors" },
-  // Main Categories
-  { id: "Chat", name: "Chat" },
-  { id: "GUI", name: "GUI" },
-  // Chat Types
-  { id: "Info", name: "Info" },
-  { id: "Warning", name: "Warning" },
-  { id: "Error", name: "Error" },
-  { id: "Success", name: "Success" },
-  { id: "Locked", name: "Locked" },
-  // GUI Elements
-  { id: "Button", name: "Button" },
-  { id: "Inventory", name: "Inventory" },
-  { id: "Selection", name: "Selection" },
-  { id: "Special", name: "Special" },
-  // States
-  { id: "Background", name: "Background" },
-  { id: "Primary", name: "Primary" },
-  { id: "Secondary", name: "Secondary" },
-  { id: "Dark", name: "Dark" },
-  { id: "Light", name: "Light" },
-];
-
 const ColorCategories = ({
-  categories = DEFAULT_CATEGORIES,
   selectedCategory = "all",
   onCategorySelect = () => {},
   colors = [],
 }: ColorCategoriesProps) => {
-  // Calculate counts for each category
+  // 1. Alle vorhandenen Tags dynamisch sammeln
+  const tagSet = React.useMemo(() => {
+    const set = new Set<string>();
+    for (const color of colors) {
+      // Falls color.tags = [{tag: "Chat"}, {tag: "Info"} ...]
+      // dann alle 'tag'-Strings ins Set
+      color.tags.forEach((t) => {
+        set.add(t.tag);
+      });
+    }
+    return set;
+  }, [colors]);
+
+  // 2. Aus dem Set ein Array von Kategorien bauen + "All Colors"
+  const baseCategories: ColorCategory[] = [
+    { id: "all", name: "All Colors" },
+    ...Array.from(tagSet).map((tag) => ({ id: tag, name: tag })),
+  ];
+
+  // 3. Count-Funktion definieren
   const getCategoryCount = (categoryId: string) => {
     if (categoryId === "all") return colors.length;
-    return colors.filter((color) => color.tags.includes(categoryId)).length;
+    return colors.filter((color) =>
+      color.tags.some((t) => t.tag === categoryId)
+    ).length;
   };
 
-  const categoriesWithCounts = categories.map((category) => ({
+  // 4. Count pro Kategorie berechnen
+  const categoriesWithCounts = baseCategories.map((category) => ({
     ...category,
     count: getCategoryCount(category.id),
   }));
 
-  // Get the "all" category and top 5 categories by count
+  // 5. "All" finden und weitere Top-Kategorien ermitteln
   const allCategory = categoriesWithCounts.find((c) => c.id === "all");
   const topCategories = categoriesWithCounts
-    .filter((c) => c.id !== "all" && c.count > 0)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 5);
+    .filter((c) => c.id !== "all" && c.count && c.count > 0)
+    .sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
+    .slice(0, 5); // Nur Top 5 anzeigen?
 
-  // Combine "all" with top categories
+  // 6. Zusammensetzen
   const displayCategories = allCategory
     ? [allCategory, ...topCategories]
     : topCategories;
+
+  function toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+    );
+  }
 
   return (
     <div className="w-full bg-background border-b">
@@ -79,11 +84,11 @@ const ColorCategories = ({
                 "whitespace-nowrap",
                 selectedCategory === category.id
                   ? "bg-primary text-primary-foreground"
-                  : "hover:bg-muted",
+                  : "hover:bg-muted"
               )}
               onClick={() => onCategorySelect(category.id)}
             >
-              {category.name}
+              {toTitleCase(category.name)}
               <span className="ml-2 text-xs rounded-full bg-background/10 px-2 py-0.5">
                 {category.count}
               </span>

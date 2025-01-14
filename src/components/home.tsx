@@ -31,6 +31,40 @@ const COLORS = [
   { hexCode: "#795548", tags: ["Chat", "Locked", "Primary"] },
   { hexCode: "#5D4037", tags: ["Chat", "Locked", "Dark"] },
 
+  // Info
+  { hexCode: "#84ACCE", tags: ["Chat", "Info", "Light"] },   // LIGHT_BLUE
+  { hexCode: "#006494", tags: ["Chat", "Info", "Primary"] }, // BLUE
+  { hexCode: "#665687", tags: ["Chat", "Info", "Dark"] },    // PURPLE
+
+  // Warning
+  { hexCode: "#F9DC5C", tags: ["Chat", "Warning", "Light"] },  // YELLOW
+  { hexCode: "#FA824C", tags: ["Chat", "Warning", "Primary"] },// ORANGE
+  { hexCode: "#B084CC", tags: ["Chat", "Warning", "Dark"] },   // VIOLET
+
+  // Error
+  { hexCode: "#CB8589", tags: ["Chat", "Error", "Light"] },  // ROSE
+  { hexCode: "#ED254E", tags: ["Chat", "Error", "Primary"] },// RED
+  { hexCode: "#6F2DBD", tags: ["Chat", "Error", "Dark"] },   // GRAPE
+
+  // Success
+  { hexCode: "#ACFCD9", tags: ["Chat", "Success", "Light"] }, // TURQUOISE
+  { hexCode: "#9FD356", tags: ["Chat", "Success", "Primary"] },// GREEN
+  { hexCode: "#466365", tags: ["Chat", "Success", "Dark"] },   // DARK_GREEN
+
+  // Locked
+  { hexCode: "#EFD6AC", tags: ["Chat", "Locked", "Light"] },   // SKIN_COLOR
+  { hexCode: "#342E37", tags: ["Chat", "Locked", "Primary"] }, // BLACK_ACCENT
+  { hexCode: "#04151F", tags: ["Chat", "Locked", "Dark"] },    // BLACK
+
+
+  // -------------------------
+  // GUI / Special Elements
+  // -------------------------
+  { hexCode: "#D8E1FF", tags: ["GUI", "Special", "White"] },   // WHITE
+  { hexCode: "#DDE8B9", tags: ["GUI", "Special", "Lime"] },    // LIME
+  { hexCode: "#D7D9B1", tags: ["GUI", "Special", "Vanilla"] }, // VANILLA
+  { hexCode: "#B298DC", tags: ["GUI", "Special", "Wisteria"] },// WISTERIA
+
   // GUI Colors
   { hexCode: "#1E1E1E", tags: ["GUI", "Background", "Dark", "Primary"] },
   { hexCode: "#2D2D2D", tags: ["GUI", "Background", "Dark", "Secondary"] },

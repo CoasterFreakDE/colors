@@ -9,6 +9,54 @@ interface ColorPaletteLibraryProps {
   initialCategory?: string;
 }
 
+const COLORS = [
+  // Chat Colors
+  { hexCode: "#E8F5E9", tags: ["Chat", "Info", "Light", "Background"] },
+  { hexCode: "#2196F3", tags: ["Chat", "Info", "Primary"] },
+  { hexCode: "#1976D2", tags: ["Chat", "Info", "Dark"] },
+
+  { hexCode: "#FFF3E0", tags: ["Chat", "Warning", "Light", "Background"] },
+  { hexCode: "#FF9800", tags: ["Chat", "Warning", "Primary"] },
+  { hexCode: "#F57C00", tags: ["Chat", "Warning", "Dark"] },
+
+  { hexCode: "#FFEBEE", tags: ["Chat", "Error", "Light", "Background"] },
+  { hexCode: "#F44336", tags: ["Chat", "Error", "Primary"] },
+  { hexCode: "#D32F2F", tags: ["Chat", "Error", "Dark"] },
+
+  { hexCode: "#E8F5E9", tags: ["Chat", "Success", "Light", "Background"] },
+  { hexCode: "#4CAF50", tags: ["Chat", "Success", "Primary"] },
+  { hexCode: "#388E3C", tags: ["Chat", "Success", "Dark"] },
+
+  { hexCode: "#EFEBE9", tags: ["Chat", "Locked", "Light", "Background"] },
+  { hexCode: "#795548", tags: ["Chat", "Locked", "Primary"] },
+  { hexCode: "#5D4037", tags: ["Chat", "Locked", "Dark"] },
+
+  // GUI Colors
+  { hexCode: "#1E1E1E", tags: ["GUI", "Background", "Dark", "Primary"] },
+  { hexCode: "#2D2D2D", tags: ["GUI", "Background", "Dark", "Secondary"] },
+  { hexCode: "#424242", tags: ["GUI", "Border", "Dark"] },
+
+  // Button States
+  { hexCode: "#616161", tags: ["GUI", "Button", "Default"] },
+  { hexCode: "#757575", tags: ["GUI", "Button", "Hover"] },
+  { hexCode: "#4A4A4A", tags: ["GUI", "Button", "Pressed"] },
+  { hexCode: "#9E9E9E", tags: ["GUI", "Button", "Disabled"] },
+
+  // Selection & Highlight
+  { hexCode: "#64B5F6", tags: ["GUI", "Selection", "Primary"] },
+  { hexCode: "#2196F3", tags: ["GUI", "Selection", "Secondary"] },
+
+  // Inventory Slots
+  { hexCode: "#373737", tags: ["GUI", "Inventory", "Slot", "Default"] },
+  { hexCode: "#4A4A4A", tags: ["GUI", "Inventory", "Slot", "Hover"] },
+  { hexCode: "#1E1E1E", tags: ["GUI", "Inventory", "Slot", "Selected"] },
+
+  // Special Elements
+  { hexCode: "#FFD700", tags: ["GUI", "Special", "Gold"] },
+  { hexCode: "#B9F2FF", tags: ["GUI", "Special", "Diamond"] },
+  { hexCode: "#A0522D", tags: ["GUI", "Special", "Bronze"] },
+];
+
 const ColorPaletteLibrary = ({
   initialCategory = "all",
 }: ColorPaletteLibraryProps) => {
@@ -17,7 +65,7 @@ const ColorPaletteLibrary = ({
   const [searchQuery, setSearchQuery] = React.useState("");
 
   React.useEffect(() => {
-    const theme = localStorage.getItem("theme") || "light";
+    const theme = localStorage.getItem("theme") || "dark";
     document.documentElement.classList.add(theme);
   }, []);
 
@@ -32,11 +80,11 @@ const ColorPaletteLibrary = ({
         <header className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-bold text-foreground mb-4">
-              Color Palette Library
+              Minecraft Color Palette
             </h1>
             <p className="text-muted-foreground">
-              Browse and copy color codes from our curated collection of color
-              palettes
+              Browse and copy color codes for Minecraft server chat messages and
+              GUI elements
             </p>
           </div>
           <ModeToggle />
@@ -45,7 +93,7 @@ const ColorPaletteLibrary = ({
         <div className="relative mb-6">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by hex code or tags (e.g. Dark, Blue, Primary)..."
+            placeholder="Search by hex code or tags (e.g. Chat, GUI, Info, Warning)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -55,6 +103,7 @@ const ColorPaletteLibrary = ({
         <ColorCategories
           selectedCategory={selectedCategory}
           onCategorySelect={handleCategorySelect}
+          colors={COLORS}
         />
 
         <ColorGrid
@@ -62,6 +111,7 @@ const ColorPaletteLibrary = ({
             selectedCategory === "all" ? undefined : selectedCategory
           }
           searchQuery={searchQuery}
+          colors={COLORS}
         />
       </div>
     </div>

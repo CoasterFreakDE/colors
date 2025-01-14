@@ -5,37 +5,73 @@ import { cn } from "@/lib/utils";
 interface ColorCategory {
   id: string;
   name: string;
-  count?: number;
 }
 
 interface ColorCategoriesProps {
   categories?: ColorCategory[];
   selectedCategory?: string;
   onCategorySelect?: (categoryId: string) => void;
+  colors?: Array<{ hexCode: string; tags: string[] }>;
 }
 
+const DEFAULT_CATEGORIES = [
+  { id: "all", name: "All Colors" },
+  // Main Categories
+  { id: "Chat", name: "Chat" },
+  { id: "GUI", name: "GUI" },
+  // Chat Types
+  { id: "Info", name: "Info" },
+  { id: "Warning", name: "Warning" },
+  { id: "Error", name: "Error" },
+  { id: "Success", name: "Success" },
+  { id: "Locked", name: "Locked" },
+  // GUI Elements
+  { id: "Button", name: "Button" },
+  { id: "Inventory", name: "Inventory" },
+  { id: "Selection", name: "Selection" },
+  { id: "Special", name: "Special" },
+  // States
+  { id: "Background", name: "Background" },
+  { id: "Primary", name: "Primary" },
+  { id: "Secondary", name: "Secondary" },
+  { id: "Dark", name: "Dark" },
+  { id: "Light", name: "Light" },
+];
+
 const ColorCategories = ({
-  categories = [
-    { id: "all", name: "All Colors", count: 24 },
-    { id: "Primary", name: "Primary", count: 6 },
-    { id: "Secondary", name: "Secondary", count: 6 },
-    { id: "Accent", name: "Accent", count: 4 },
-    { id: "Neutral", name: "Neutral", count: 8 },
-    { id: "Dark", name: "Dark", count: 12 },
-    { id: "Light", name: "Light", count: 4 },
-    { id: "Vibrant", name: "Vibrant", count: 8 },
-    { id: "Blue", name: "Blue", count: 6 },
-    { id: "Pink", name: "Pink", count: 6 },
-    { id: "Gray", name: "Gray", count: 8 },
-  ],
+  categories = DEFAULT_CATEGORIES,
   selectedCategory = "all",
   onCategorySelect = () => {},
+  colors = [],
 }: ColorCategoriesProps) => {
+  // Calculate counts for each category
+  const getCategoryCount = (categoryId: string) => {
+    if (categoryId === "all") return colors.length;
+    return colors.filter((color) => color.tags.includes(categoryId)).length;
+  };
+
+  const categoriesWithCounts = categories.map((category) => ({
+    ...category,
+    count: getCategoryCount(category.id),
+  }));
+
+  // Get the "all" category and top 5 categories by count
+  const allCategory = categoriesWithCounts.find((c) => c.id === "all");
+  const topCategories = categoriesWithCounts
+    .filter((c) => c.id !== "all" && c.count > 0)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+
+  // Combine "all" with top categories
+  const displayCategories = allCategory
+    ? [allCategory, ...topCategories]
+    : topCategories;
+
   return (
     <div className="w-full bg-background border-b">
       <div className="container mx-auto px-4 py-2">
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {categories.map((category) => (
+          {displayCategories.map((category) => (
             <Button
               key={category.id}
               variant={selectedCategory === category.id ? "default" : "outline"}
@@ -48,11 +84,9 @@ const ColorCategories = ({
               onClick={() => onCategorySelect(category.id)}
             >
               {category.name}
-              {category.count !== undefined && (
-                <span className="ml-2 text-xs rounded-full bg-background/10 px-2 py-0.5">
-                  {category.count}
-                </span>
-              )}
+              <span className="ml-2 text-xs rounded-full bg-background/10 px-2 py-0.5">
+                {category.count}
+              </span>
             </Button>
           ))}
         </div>

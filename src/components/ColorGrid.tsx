@@ -11,32 +11,7 @@ interface ColorGridProps {
 }
 
 const ColorGrid = ({
-  colors = [
-    { hexCode: "#6366F1", tags: ["Primary", "Blue", "Vibrant"] },
-    { hexCode: "#4F46E5", tags: ["Primary", "Blue", "Dark"] },
-    { hexCode: "#4338CA", tags: ["Primary", "Blue", "Dark"] },
-    { hexCode: "#3730A3", tags: ["Primary", "Blue", "Dark"] },
-    { hexCode: "#312E81", tags: ["Primary", "Blue", "Dark"] },
-    { hexCode: "#1E1B4B", tags: ["Primary", "Blue", "Dark"] },
-    { hexCode: "#EC4899", tags: ["Secondary", "Pink", "Vibrant"] },
-    { hexCode: "#DB2777", tags: ["Secondary", "Pink", "Vibrant"] },
-    { hexCode: "#BE185D", tags: ["Secondary", "Pink", "Dark"] },
-    { hexCode: "#9D174D", tags: ["Secondary", "Pink", "Dark"] },
-    { hexCode: "#831843", tags: ["Secondary", "Pink", "Dark"] },
-    { hexCode: "#500724", tags: ["Secondary", "Pink", "Dark"] },
-    { hexCode: "#10B981", tags: ["Accent", "Green", "Vibrant"] },
-    { hexCode: "#F59E0B", tags: ["Accent", "Yellow", "Vibrant"] },
-    { hexCode: "#EF4444", tags: ["Accent", "Red", "Vibrant"] },
-    { hexCode: "#8B5CF6", tags: ["Accent", "Purple", "Vibrant"] },
-    { hexCode: "#111827", tags: ["Neutral", "Gray", "Dark"] },
-    { hexCode: "#374151", tags: ["Neutral", "Gray", "Dark"] },
-    { hexCode: "#6B7280", tags: ["Neutral", "Gray", "Medium"] },
-    { hexCode: "#9CA3AF", tags: ["Neutral", "Gray", "Medium"] },
-    { hexCode: "#D1D5DB", tags: ["Neutral", "Gray", "Light"] },
-    { hexCode: "#E5E7EB", tags: ["Neutral", "Gray", "Light"] },
-    { hexCode: "#F3F4F6", tags: ["Neutral", "Gray", "Light"] },
-    { hexCode: "#F9FAFB", tags: ["Neutral", "Gray", "Light"] },
-  ],
+  colors = [{ hexCode: "#6366F1", tags: ["Primary", "Blue", "Vibrant"] }],
   selectedCategory,
   searchQuery = "",
 }: ColorGridProps) => {

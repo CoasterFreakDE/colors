@@ -40,7 +40,7 @@ const ColorSwatch = ({
     return brightness > 128 ? "#000000" : "#FFFFFF";
   };
 
-  let distinctTags = [... new Set(tags)];
+  let distinctTags = [...new Set(tags)];
 
   const textColor = getContrastColor(hexCode);
 
@@ -64,38 +64,38 @@ const ColorSwatch = ({
                       "text-lg font-medium transition-opacity",
                       copied
                         ? "opacity-0"
-                        : "opacity-100 group-hover:opacity-100",
+                        : "opacity-100 group-hover:opacity-100"
                     )}
                     style={{ color: textColor }}
                   >
                     {hexCode}
                   </span>
                   <div className="flex flex-wrap gap-1 justify-center px-4 max-w-[200px]">
-                    {distinctTags.map((tag) => (
-                      <Badge
-                        key={`${hexCode}-${tag.id}`}
-                        variant="secondary"
-                        className={cn(
-                          "text-xs transition-opacity",
-                          copied
-                            ? "opacity-0"
-                            : "opacity-70 group-hover:opacity-100",
-                        )}
-                        style={{
-                          backgroundColor: `${textColor}20`,
-                          color: textColor,
-                        }}
-                      >
-                        {tag.tag}
-                      </Badge>
-                    ))}
+                    {distinctTags
+                      .filter((tag) => !tag.tag.includes("project:"))
+                      .map((tag) => (
+                        <Badge
+                          key={`${hexCode}-${tag.id}`}
+                          variant="secondary"
+                          className={cn(
+                            "text-xs transition-opacity",
+                            copied
+                              ? "opacity-0"
+                              : "opacity-70 group-hover:opacity-100"
+                          )}
+                          style={{
+                            backgroundColor: `${textColor}20`,
+                            color: textColor,
+                          }}
+                        >
+                          {tag.tag}
+                        </Badge>
+                      ))}
                   </div>
                   <Copy
                     className={cn(
                       "w-6 h-6 transition-opacity mt-2",
-                      copied
-                        ? "opacity-0"
-                        : "opacity-0 group-hover:opacity-100",
+                      copied ? "opacity-0" : "opacity-0 group-hover:opacity-100"
                     )}
                     style={{ color: textColor }}
                   />
@@ -108,7 +108,7 @@ const ColorSwatch = ({
             <span
               className={cn(
                 "absolute text-lg font-medium transition-opacity",
-                copied ? "opacity-100" : "opacity-0",
+                copied ? "opacity-100" : "opacity-0"
               )}
               style={{ color: textColor }}
             >

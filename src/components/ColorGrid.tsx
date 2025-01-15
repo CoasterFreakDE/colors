@@ -5,12 +5,14 @@ import ColorData from "@/types/packetbase";
 interface ColorGridProps {
   colors?: Array<ColorData>;
   selectedCategory?: string;
+  selectedProject?: string;
   searchQuery?: string;
 }
 
 const ColorGrid = ({
   colors = [],
   selectedCategory,
+  selectedProject,
   searchQuery = "",
 }: ColorGridProps) => {
   let filteredColors = colors.filter((color) => {
@@ -20,17 +22,24 @@ const ColorGrid = ({
       selectedCategory === "all" ||
       color.tags.map((t) => t.tag).includes(selectedCategory);
 
+    const matchesProject =
+      !selectedProject ||
+      selectedProject === "all" ||
+      color.tags.map((t) => t.tag).includes(selectedProject);
+
     // Then apply search filter if there's a search query
-    if (!searchQuery) return matchesCategory;
+    if (!searchQuery) return matchesCategory && matchesProject;
 
     const query = searchQuery.toLowerCase();
+
     return (
       matchesCategory &&
+      matchesProject &&
       (color.hexCode.toLowerCase().includes(query) ||
         color.tags.some((tag) => tag.tag.toLowerCase().includes(query)))
     );
   });
-  filteredColors = [... new Set(filteredColors)];
+  filteredColors = [...new Set(filteredColors)];
 
   const handleColorCopy = (hexCode: string) => {
     console.log(`Color ${hexCode} copied to clipboard`);

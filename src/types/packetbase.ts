@@ -8,4 +8,5 @@ export default interface ColorData {
 export interface PocketBaseTag {
     id: string;
     tag: string;
+    project: boolean;
 }

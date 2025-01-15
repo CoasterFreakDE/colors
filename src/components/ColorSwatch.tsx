@@ -44,6 +44,13 @@ const ColorSwatch = ({
 
   const textColor = getContrastColor(hexCode);
 
+  function toTitleCase(str) {
+    return str.replace(
+        /\w\S*/g,
+        text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+    );
+  }
+
   return (
     <TooltipProvider>
       <div className="bg-background w-[250px] h-[250px] rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
@@ -86,7 +93,7 @@ const ColorSwatch = ({
                           color: textColor,
                         }}
                       >
-                        {tag.tag}
+                        {toTitleCase(tag.tag)}
                       </Badge>
                     ))}
                   </div>

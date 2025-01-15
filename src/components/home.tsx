@@ -39,7 +39,7 @@ const ColorPaletteLibrary = ({
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const [projects, setProjects] = React.useState<
-    { name: string; raw: string }[]
+    { name: string; tag: string }[]
   >([]);
   const [project, setProject] = React.useState<string>("all");
 
@@ -64,16 +64,23 @@ const ColorPaletteLibrary = ({
       }
     }
 
+    function toTitleCase(str) {
+      return str.replace(
+          /\w\S*/g,
+          text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+      );
+    }
+
     async function fetchProjects() {
-      const records = await pb.collection("color_tags").getFullList({
+      const records = await pb.collection("color_tags").getFullList<PocketBaseTag>({
         sort: "-created",
       });
 
-      const filtered = records.filter((tag) => tag.tag.startsWith("project:"));
+      const filtered = records.filter((tag) => tag.project);
 
       const projects = filtered.map((tag) => ({
-        name: tag.tag.replace("project:", ""),
-        raw: tag.tag,
+        name: toTitleCase(tag.tag),
+        tag: tag.tag,
       }));
 
       setProjects(projects);
@@ -115,7 +122,7 @@ const ColorPaletteLibrary = ({
               <SelectGroup>
                 <SelectLabel>Projects</SelectLabel>
                 {projects.map((project) => (
-                  <SelectItem key={project.raw} value={project.raw}>
+                  <SelectItem key={project.tag} value={project.tag}>
                     {project.name}
                   </SelectItem>
                 ))}
